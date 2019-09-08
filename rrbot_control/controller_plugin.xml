@@ -1,0 +1,9 @@
+<library path="lib/liblqr_controller">
+    <class name="controller_ns/LQRController"
+           type="controller_ns::LQRController"
+           base_class_type="controller_interface::ControllerBase">
+        <description>
+            Controller interface that implements an LQR controller
+        </description>
+    </class>
+</library>
