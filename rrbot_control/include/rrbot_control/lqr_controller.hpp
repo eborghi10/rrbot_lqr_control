@@ -5,9 +5,6 @@
 #include <hardware_interface/joint_command_interface.h>
 #include <pluginlib/class_list_macros.h>
 
-#include <ct/optcon/optcon.h>  // also includes ct_core
-#include <memory>
-
 #include <eigen3/Eigen/Dense>
 
 // #define COSTFUNCTION_TEST_DIR "@COSTFUNCTION_TEST_DIR@"
@@ -28,15 +25,15 @@ private:
 
   // https://qiita.com/watakandhi/items/a020aec6d74e6dc7ef30
 
-  Eigen::Matrix2d H;
+  Eigen::Matrix2d M;
   Eigen::Matrix2d C;
-  Eigen::Array2d G;
-  Eigen::Array2d B_;
+  Eigen::Vector2d G;
+  Eigen::Vector2d B_;
 
   Eigen::Matrix4d A;
-  Eigen::Array4d B;
+  Eigen::Vector4d B;
   Eigen::Matrix4d Q;
-  Eigen::Matrix4d R;
+  Eigen::Matrix<double, 1, 1> R;
 
   Eigen::MatrixXd calcGainK()
   {
@@ -49,9 +46,13 @@ private:
 
       // https://www.mathworks.com/help/control/ref/lqr.html
       // http://www.kostasalexis.com/lqr-control.html
-      Eigen::MatrixXd  P = care(A, B, Q, R);
-      return R.inverse() * (B.transpose() * P);
+      Eigen::MatrixXd  S = care(A, B, Q, R);
+      return R.inverse() * (B.transpose() * S);
   }
+
+  /*
+   * CARE: Continuous-time Algebraic Riccati Equation
+   */
 
   Eigen::MatrixXd care(const Eigen::MatrixXd &A,
                        const Eigen::MatrixXd &B,
@@ -80,7 +81,7 @@ private:
           }
       }
 
-      // calc P with stable eigen vector matrix
+      // calc S with stable eigen vector matrix
       Eigen::MatrixXcd U(dim_x, dim_x);
       Eigen::MatrixXcd V(dim_x, dim_x);
 

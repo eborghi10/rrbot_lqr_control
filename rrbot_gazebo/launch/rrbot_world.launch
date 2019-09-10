@@ -26,6 +26,6 @@
     args="-urdf -model rrbot -param robot_description"/>
 
   <!-- ros_control rrbot launch file -->
-  <!-- <include file="$(find rrbot_control)/launch/rrbot_control.launch" /> -->
+  <include file="$(find rrbot_control)/launch/rrbot_control.launch" />
 
 </launch>

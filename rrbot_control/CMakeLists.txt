@@ -3,19 +3,16 @@ project(rrbot_control)
 
 add_compile_options(-std=c++11)
 
+# Eigen3
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
 find_package(Eigen3 REQUIRED)
-include_directories(${Eigen3_INCLUDE_DIRS})
+include_directories(${EIGEN3_INCLUDE_DIR})
 
 find_package(catkin REQUIRED COMPONENTS 
   controller_manager 
   controller_interface
   hardware_interface
   roscpp
-
-  ct_core
-  ct_rbd
-  ct_optcon
-  ct_models
 )
 
 include_directories(include ${catkin_INCLUDE_DIRS})
@@ -37,9 +34,6 @@ target_link_libraries(lqr_controller ${catkin_LIBRARIES})
 
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
-
-# get_filename_component(COSTFUNCTION_TEST_DIR "include/${PROJECT_NAME}" ABSOLUTE)
-# configure_file(costfunction/costfunction_test_dir.h.in test/costfunction/costfunction_test_dir.h)
 
 install(TARGETS lqr_controller
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
