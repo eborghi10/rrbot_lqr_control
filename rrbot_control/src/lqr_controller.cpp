@@ -20,6 +20,9 @@ bool LQRController::init(hardware_interface::EffortJointInterface* hw, ros::Node
   // get the joint object to use in the realtime loop
   joint_ = hw->getHandle(my_joint);  // throws on failure
   passive_joint_ = hw->getHandle(passive_joint);
+
+  Xg << M_PI, 0, 0, 0;
+
   return true;
 }
 
@@ -53,7 +56,7 @@ void LQRController::update(const ros::Time& time, const ros::Duration& period)
   const double dth1 = passive_joint_.getVelocity();
   const double dth2 = joint_.getVelocity();
 
-  Eigen::Vector4d X;
+  Eigen::Matrix<double, 4, 1> X;
   X << th1, th2, dth1, dth2;
 
   M(0,0) = a + b + 2 * c * std::cos(th2);
@@ -98,8 +101,13 @@ void LQRController::update(const ros::Time& time, const ros::Duration& period)
   R << 0.01;
 
   // https://github.com/wiany11/intelligent_robotics__lqr_wip/blob/master/ctrl/dynamics.py#L46
-  const Eigen::MatrixXd K = calcGainK();
-  joint_.setCommand(-K(0));
+  const Eigen::Matrix<double, 1, 4> K = calcGainK();
+
+  Eigen::Matrix<double, 4, 1> U = Xg - X;
+  
+  const double KU = -K * U;
+
+  joint_.setCommand(KU);
 }
 
-}//namespace
+} // namespace

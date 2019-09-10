@@ -5,10 +5,20 @@
 
 ## Quick Start
 
+Compilation:
+
+```sh
+catkin_make -DCMAKE_BUILD_TYPE=Release
+```
+
 Rviz:
 
-    roslaunch rrbot_description rrbot_rviz.launch
+```sh
+roslaunch rrbot_description rrbot_rviz.launch
+```
 
 Gazebo:
 
-    roslaunch rrbot_gazebo rrbot_world.launch
+```sh
+roslaunch rrbot_gazebo rrbot_world.launch
+```

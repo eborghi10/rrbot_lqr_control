@@ -35,6 +35,8 @@ private:
   Eigen::Matrix4d Q;
   Eigen::Matrix<double, 1, 1> R;
 
+  Eigen::Matrix<double, 4, 1> Xg;
+
   Eigen::MatrixXd calcGainK()
   {
       /**
