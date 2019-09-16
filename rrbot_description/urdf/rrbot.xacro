@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!-- Revolute-Revolute Manipulator -->
-<robot name="rrbot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="rrbot" xmlns:xacro="http://ros.org/wiki/xacro">
 
   <!-- Constants for robot dimensions -->
   <xacro:property name="mass" value="1" /> <!-- arbitrary value for mass -->
@@ -13,7 +13,7 @@
   <!-- Import all Gazebo-customization elements, including Gazebo colors -->
   <xacro:include filename="$(find rrbot_description)/urdf/rrbot.gazebo" />
   <!-- Import Rviz colors -->
-  <xacro:include filename="$(find rrbot_description)/urdf/materials.xacro" />
+  <xacro:include filename="$(find rrbot_description)/urdf/extras.xacro" />
 
   <!-- Used for fixing robot to Gazebo 'base_link' -->
   <link name="world"/>
@@ -40,20 +40,15 @@
       <material name="orange"/>
     </visual>
 
-    <inertial>
+    <xacro:inertial_cuboid_with_pose mass="${mass}" x_length="${width}" y_length="${width}" z_length="${height1}">
       <origin xyz="0 0 ${height1/2}" rpy="0 0 0"/>
-      <mass value="${mass}"/>
-      <inertia
-        ixx="${mass / 12.0 * (width*width + height1*height1)}" ixy="0.0" ixz="0.0"
-        iyy="${mass / 12.0 * (height1*height1 + width*width)}" iyz="0.0"
-        izz="${mass / 12.0 * (width*width + width*width)}"/>
-    </inertial>
+    </xacro:inertial_cuboid_with_pose>
   </link>
 
   <joint name="joint1" type="continuous">
     <parent link="link1"/>
     <child link="link2"/>
-    <origin xyz="0 ${width} ${height1 - axel_offset}" rpy="0 0 0"/>
+    <origin xyz="0 ${width} ${height1 - axel_offset}" rpy="0 ${pi} 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
   </joint>
@@ -61,28 +56,23 @@
   <!-- Middle Link -->
   <link name="link2">
     <collision>
-      <origin xyz="0 0 ${height2/2 - axel_offset}" rpy="0 0 0"/>
+      <origin xyz="0 0 ${height2/2 - axel_offset}" rpy="0 ${-pi} 0"/>
       <geometry>
 	      <box size="${width} ${width} ${height2}"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="0 0 ${height2/2 - axel_offset}" rpy="0 0 0"/>
+      <origin xyz="0 0 ${height2/2 - axel_offset}" rpy="0 ${-pi} 0"/>
       <geometry>
 	      <box size="${width} ${width} ${height2}"/>
       </geometry>
       <material name="black"/>
     </visual>
 
-    <inertial>
-      <origin xyz="0 0 ${height2/2 - axel_offset}" rpy="0 0 0"/>
-      <mass value="${mass}"/>
-      <inertia
-        ixx="${mass / 12.0 * (width*width + height2*height2)}" ixy="0.0" ixz="0.0"
-        iyy="${mass / 12.0 * (height2*height2 + width*width)}" iyz="0.0"
-        izz="${mass / 12.0 * (width*width + width*width)}"/>
-    </inertial>
+    <xacro:inertial_cuboid_with_pose mass="${mass}" x_length="${width}" y_length="${width}" z_length="${height2}">
+      <origin xyz="0 0 ${height2/2 - axel_offset}" rpy="0 ${-pi} 0"/>
+    </xacro:inertial_cuboid_with_pose>
   </link>
 
   <joint name="joint2" type="continuous">
@@ -110,14 +100,9 @@
       <material name="orange"/>
     </visual>
 
-    <inertial>
+    <xacro:inertial_cuboid_with_pose mass="${mass}" x_length="${width}" y_length="${width}" z_length="${height3}">
       <origin xyz="0 0 ${height3/2 - axel_offset}" rpy="0 0 0"/>
-      <mass value="${mass}"/>
-      <inertia
-        ixx="${mass / 12.0 * (width*width + height3*height3)}" ixy="0.0" ixz="0.0"
-        iyy="${mass / 12.0 * (height3*height3 + width*width)}" iyz="0.0"
-        izz="${mass / 12.0 * (width*width + width*width)}"/>
-    </inertial>
+    </xacro:inertial_cuboid_with_pose>
   </link>
 
   <!-- 
