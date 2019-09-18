@@ -56,14 +56,14 @@
   <!-- Middle Link -->
   <link name="link2">
     <collision>
-      <origin xyz="0 0 ${height2/2 - axel_offset}" rpy="0 ${-pi} 0"/>
+      <origin xyz="0 0 ${height2/2 - axel_offset}" rpy="0 0 0"/>
       <geometry>
 	      <box size="${width} ${width} ${height2}"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="0 0 ${height2/2 - axel_offset}" rpy="0 ${-pi} 0"/>
+      <origin xyz="0 0 ${height2/2 - axel_offset}" rpy="0 0 0"/>
       <geometry>
 	      <box size="${width} ${width} ${height2}"/>
       </geometry>
@@ -71,7 +71,7 @@
     </visual>
 
     <xacro:inertial_cuboid_with_pose mass="${mass}" x_length="${width}" y_length="${width}" z_length="${height2}">
-      <origin xyz="0 0 ${height2/2 - axel_offset}" rpy="0 ${-pi} 0"/>
+      <origin xyz="0 0 ${height2/2 - axel_offset}" rpy="0 0 0"/>
     </xacro:inertial_cuboid_with_pose>
   </link>
 
