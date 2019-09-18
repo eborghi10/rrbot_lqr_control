@@ -93,8 +93,8 @@ void LQRController::update(const ros::Time& time, const ros::Duration& period)
 
   B.segment<2>(2) = M.inverse() * B_;
 
-  Q(0,0) = 1;
-  Q(1,1) = 0.1;
+  Q(0,0) = 10.0;
+  Q(1,1) = 10.0;
   Q(2,2) = 0.1;
   Q(3,3) = 0.1;
 
@@ -104,7 +104,7 @@ void LQRController::update(const ros::Time& time, const ros::Duration& period)
   const Eigen::Matrix<double, 1, 4> K = calcGainK();
 
   Eigen::Matrix<double, 4, 1> U = Xg - X;
-  
+
   const double KU = -K * U;
 
   joint_.setCommand(KU);
