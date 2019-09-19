@@ -103,11 +103,9 @@ void LQRController::update(const ros::Time& time, const ros::Duration& period)
   // https://github.com/wiany11/intelligent_robotics__lqr_wip/blob/master/ctrl/dynamics.py#L46
   const Eigen::Matrix<double, 1, 4> K = calcGainK();
 
-  Eigen::Matrix<double, 4, 1> U = Xg - X;
+  const double U = Xg(0) - K * X;
 
-  const double KU = -K * U;
-
-  joint_.setCommand(KU);
+  joint_.setCommand(U);
 }
 
 } // namespace
